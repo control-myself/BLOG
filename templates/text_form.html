@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <th>
+            <tr>
+                <div contenteditable="true" oninput="preview()" id="text" style="width:50%"></div>
+            </tr>   
+            <tr>
+                <div id="preview-page" style="width:50%"></div>
+            </tr>   
+        </th>
+    </form>
+</body>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+    
+    function preview(){
+        var data = {
+                    'action': 'preview',
+                    'text': document.getElementById('text').textContent
+                }
+        console.log(data)
+        $.ajax({
+            url: "{% url 'article:test' %}",
+                type: 'POST',
+                data: data,
+                success: function(data) {
+                    document.getElementById('preview-page').innerHTML = data
+                }
+        })
+    }
+
+</script>
+</html>
