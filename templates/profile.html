@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人主页</title>
+</head>
+<body>
+    <a href="{% url 'article:home' %}">{{ author_data.author.email }}</a>
+    <button onclick="create_article()">新建文章</button>
+    <button onclick="edit_article()">编辑文章</button>
+    <button>草稿箱</button>
+    <button onclick="logout()">登出</button>
+
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+	<script>
+        function create_article(){
+            window.location.href = '/add-article/'
+        }
+        function edit_article(){
+            window.location.href = '/edit-article/'
+        }
+        function logout(){
+            window.location.href = '/logout/'
+        }
+	</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+</head>
+<body>
+    <form method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br>
+
+        <button type="submit" onclick="login()">Login</button>
+    </form>
+    <div id="myModal" class="modal">
+        <!-- 模态框内容 -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>这是一个简单的模态框！</p>
+        </div>
+      </div>
+</body>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+    function login(){
+        var data = {
+                    'username': document.getElementById('username').value,
+                    'password': document.getElementById('password').value
+                }
+        $.ajax({
+            url: "{% url 'article:home' %}",
+                type: 'POST',
+                data: data,
+                success: function(data) {
+                    var jsonObj = JSON.parse(data);
+                    console.log(jsonObj)
+                    if (data.status == 'error'){
+                        alert(1)
+                    }
+                }
+        })
+    }
+</script>
+</html>

@@ -1,2 +1,4 @@
 Django==4.2
-Markdown==3.4.3
+django-markdownx==4.0.2
+django-extensions==3.2.1 # shell_plus运行包
+ipython==8.12.1 # shell_plus样式包

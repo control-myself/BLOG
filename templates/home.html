@@ -4,19 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>首页</title>
 </head>
 <body>
-    <form>
-        <th>
-            <tr>
-                <div contenteditable="true" oninput="preview()" id="text" style="width:50%"></div>
-            </tr>   
-            <tr>
-                <div id="preview-page" style="width:50%"></div>
-            </tr>   
-        </th>
-    </form>
+    <div>
+        {% if content.can_click %}
+            <a href="{% url 'account:profile' %}">
+        {% endif %}
+        {{ content.author.email }}</a>
+    </div>
+    <div>
+        
+    </div>
 </body>
 <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 <script>
@@ -28,7 +27,7 @@
                 }
         console.log(data)
         $.ajax({
-            url: "{% url 'article:test' %}",
+            url: "{% url 'article:home' %}",
                 type: 'POST',
                 data: data,
                 success: function(data) {

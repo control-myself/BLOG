@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Split Screen Markdown Editor</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/marked/2.1.1/marked.min.css">
+	<style>
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			font: 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+		}
+		.split {
+			display: flex;
+			height: 100vh;
+			overflow: hidden;
+			position: relative;
+			width: 100%;
+		}
+		.split .left {
+			flex: 1;
+			height: 100%;
+			overflow-y: scroll;
+			padding: 10px;
+		}
+		.split .right {
+			flex: 1;
+			height: 100%;
+			overflow-y: scroll;
+			padding: 10px;
+			background-color: #f8f8f8;
+		}
+	</style>
+</head>
+<body>
+	<div class="split">
+		<div class="left">
+			<textarea id="markdown">{{ content }}</textarea>
+		</div>
+		<div class="right" id="preview"></div>
+	</div>
+    <button type="submit" onclick="save()">save</button>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.1.1/marked.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+	<script>
+		function updatePreview() {
+			var markdown = document.getElementById('markdown').value;
+			var preview = document.getElementById('preview');
+			preview.innerHTML = marked(markdown);
+		}
+		var textarea = document.getElementById('markdown');
+		textarea.addEventListener('keyup', updatePreview);
+		updatePreview();
+
+        function save(){
+            var data = {
+                        'content': document.getElementById('markdown').value
+                    }
+            $.ajax({
+                url: "{% url 'article:add-article' %}",
+                    type: 'POST',
+                    data: data,
+                    success: function(data) {
+                        window.location.reload()
+                    }
+            })
+        }
+	</script>
+</body>
+</html>
