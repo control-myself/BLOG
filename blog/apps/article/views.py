@@ -7,6 +7,7 @@ from markdownx.utils import markdownify
 from django.views.generic import CreateView
 from blog.apps.article.models import Article
 from blog.apps.account.models import User
+from django.shortcuts import redirect
 
 
 def home(request):
@@ -23,15 +24,25 @@ def home(request):
     return render(request, 'home.html', {'content': content})
         
 class CreateNewArticle(CreateView):
-    template_name = 'b.html'
+    template_name = 'add_article.html'
     model = Article
     fields = ('content', 'title', 'author')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('/login/?next=%s' % request.path_info)
+        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request):
         user = request.user
         content = request.POST['content']
-        self.model.objects.filter().update(content=content)
-        return render(request, 'b.html', {'content': content})
+        title = request.POST['title']
+        self.model.objects.create(title=title, content=content, author=user)
+
+        return self.get_success_url()
+    
+    def get_success_url(self):
+        return redirect('/profile/')
 
 
 class EditArticle(CreateView):

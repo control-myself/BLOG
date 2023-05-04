@@ -16,8 +16,10 @@ def author_login(request):
         if user:
             if user.user_type == 'author':
                 login(request, user)
-                url = reverse('account:profile')
-                return redirect(url)
+                next = request.GET.get('next')
+                if next:
+                    return redirect(next)
+                return redirect('/profile/')
         
         return HttpResponse(json.dumps({'status': 'error', 'error_message': {'content': '该账号不匹配，点击确认跳转至博客首页！'}}),
                                     content_type='application/json')

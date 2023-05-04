@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Split Screen Markdown Editor</title>
+	<title>新增文章</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/marked/2.1.1/marked.min.css">
 	<style>
 		* {
@@ -38,7 +38,7 @@
 <body>
 	<div class="split">
 		<div class="left">
-			<textarea id="markdown">
+			<textarea id="markdown" style="width: 100%;height: 100%;">
 	# Markdown 使用指南
 
 	## 标题
@@ -198,6 +198,7 @@
 
         function save(){
             var data = {
+						'title': '',
                         'content': document.getElementById('markdown').value
                     }
             $.ajax({
