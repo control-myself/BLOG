@@ -38,7 +38,148 @@
 <body>
 	<div class="split">
 		<div class="left">
-			<textarea id="markdown">{{ content }}</textarea>
+			<textarea id="markdown">
+	# Markdown 使用指南
+
+	## 标题
+
+	Markdown 的标题支持 1~6 级标题，分别用 1~6 个 # 号表示。
+
+	示例：
+
+	```
+	# 一级标题
+	## 二级标题
+	### 三级标题
+	#### 四级标题
+	##### 五级标题
+	###### 六级标题
+	```
+
+	## 段落
+
+	Markdown 的段落是使用空白行或换行符进行分割的。如果想要在行末换行，可以在行末加上至少两个空格。
+
+	示例：
+
+	```
+	这是第一段。
+
+	这是第二段。
+	```
+
+	## 强调
+
+	在 Markdown 中，要表示斜体可以使用一个星号或下划线包裹内容，要表示加粗可以使用两个星号或下划线包裹内容。
+
+	示例：
+
+	```
+	这是 *斜体* 文字。
+
+	这是 **加粗** 文字。
+	```
+
+	## 列表
+
+	Markdown 支持有序列表和无序列表。
+
+	无序列表使用星号、加号或减号作为列表标记，有序列表使用数字加上英文句点作为列表标记。
+
+	示例：
+
+	```
+	无序列表：
+	* 第一项
+	* 第二项
+	* 第三项
+
+	有序列表：
+	1. 第一项
+	2. 第二项
+	3. 第三项
+	```
+
+	## 链接
+
+	Markdown 中可以将链接嵌入到文本中。链接分为行内式和参考式两种形式。
+
+	行内式：用方括号 `[]` 标记链接文字，再用小括号 `()` 标记链接地址。
+
+	参考式：用方括号 `[]` 标记链接文字，再用方括号 `[]` 标记链接参考文本，同时在文档其他部分定义该链接参考文本的链接地址。
+
+	示例：
+
+	```
+	行内式：[百度一下，你就知道](https://www.baidu.com/)
+
+	参考式：[百度][1]
+
+	[1]: https://www.baidu.com/
+	```
+
+	## 图片
+
+	Markdown 中插入图片和链接类似，也有行内式和参考式两种形式。
+
+	行内式：用感叹号 `!` 代表图片，方括号 `[]` 标记图片描述，小括号 `()`标记图片地址。
+
+	参考式：用感叹号 `!` 代表图片，方括号 `[]` 标记图片描述，同时在文档其他部分定义该图片描述的链接地址。
+
+	示例：
+
+	```
+	行内式：![一个猫咪的图片](https://www.example.com/cat.jpg)
+
+	参考式：![另一个猫咪的图片][1]
+
+	[1]: https://www.example.com/another-cat.jpg
+	```
+
+	## 代码
+
+	Markdown 中可以使用反引号 `\`` 包裹代码。如果要表示代码区块，可以使用三个反引号 `\`\`\`` 包裹代码。
+
+	示例：
+
+	```
+	这是一段 `内联代码`。
+
+	```
+	这是一段代码区块：
+	```python
+	print("hello, world!")
+	```
+	```
+
+	## 引用
+
+	Markdown 中用符号 `>` 标记引用，可表示引用长文本、文本片段等。
+
+	示例：
+
+	```
+	> 这是一个引用。
+
+	> 这是另一个引用。
+	```
+
+	## 横线
+
+	Markdown 中用三个或以上的星号、减号或下划线来表示一条横线。
+
+	示例：
+
+	```
+	---
+
+	***
+
+	___
+	```
+
+	以上就是 Markdown 的基础语法。相信你已经可以愉快地写作了！
+</textarea>
 		</div>
 		<div class="right" id="preview"></div>
 	</div>
@@ -68,6 +209,42 @@
                     }
             })
         }
+		var editor = document.getElementById('markdown');
+		var preview = document.getElementById('preview');
+
+		editor.addEventListener('scroll', function() {
+			// 计算编辑器的滚动比例
+			var editorScrollTop = editor.scrollTop;
+			var editorScrollHeight = editor.scrollHeight;
+			var editorClientHeight = editor.clientHeight;
+			var editorScrollRatio = 0;
+			if (editorScrollHeight > editorClientHeight) {
+				editorScrollRatio = editorScrollTop / (editorScrollHeight - editorClientHeight);
+			}
+
+			// 根据编辑器的滚动比例，设置预览框的滚动位置
+			var previewScrollHeight = preview.scrollHeight;
+			var previewClientHeight = preview.clientHeight;
+			var previewScrollTop = (previewScrollHeight - previewClientHeight) * editorScrollRatio;
+			preview.scrollTop = previewScrollTop;
+		});
+
+		preview.addEventListener('scroll', function() {
+			// 计算预览框的滚动比例
+			var previewScrollTop = preview.scrollTop;
+			var previewScrollHeight = preview.scrollHeight;
+			var previewClientHeight = preview.clientHeight;
+			var previewScrollRatio = 0;
+			if (previewScrollHeight > previewClientHeight) {
+				previewScrollRatio = previewScrollTop / (previewScrollHeight - previewClientHeight);
+			}
+
+			// 根据预览框的滚动比例，设置编辑器的滚动位置
+			var editorScrollHeight = editor.scrollHeight;
+			var editorClientHeight = editor.clientHeight;
+			var editorScrollTop = (editorScrollHeight - editorClientHeight) * previewScrollRatio;
+			editor.scrollTop = editorScrollTop;
+		});
 	</script>
 </body>
 </html>
