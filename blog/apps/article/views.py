@@ -1,10 +1,11 @@
 
+from typing import Any
 from django.http import HttpRequest, HttpResponse
 import markdown
 from django.conf import settings
 from django.shortcuts import render
 from markdownx.utils import markdownify
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 from blog.apps.article.models import Article
 from blog.apps.account.models import User
 from django.shortcuts import redirect
@@ -39,10 +40,7 @@ class CreateNewArticle(CreateView):
         title = request.POST['title']
         self.model.objects.create(title=title, content=content, author=user)
 
-        return self.get_success_url()
-    
-    def get_success_url(self):
-        return redirect('/profile/')
+        return super().post(request)
 
 
 class EditArticle(CreateView):
@@ -60,3 +58,15 @@ class EditArticle(CreateView):
         content = request.POST['content']
         self.model.objects.filter().update(content=content)
         return render(request, 'b.html', {'content': content})
+    
+
+class ArticleDetail(DetailView):
+    template_name = 'article_detail.html'
+    model = Article
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        article = self.model.objects.get(id=kwargs['pk'])
+        context['article'] = markdown.markdown(article.content)
+        return self.render_to_response(context)

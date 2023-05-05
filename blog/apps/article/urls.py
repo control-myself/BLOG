@@ -6,4 +6,5 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('add-article/', views.CreateNewArticle.as_view(), name='add-article'),
     path('edit-article/', views.EditArticle.as_view(), name='edit-article'),
+    path('article/<pk>/', views.ArticleDetail.as_view(), name='article-detail')
 ]
